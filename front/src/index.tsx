@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Notification from "./components/Notification";
 import { useNavigate } from "react-router-dom";
-import { formatISO } from "date-fns";
 import "./css/homepage.css";
 
 type Restaurant = {
