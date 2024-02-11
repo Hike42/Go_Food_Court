@@ -13,11 +13,28 @@
   margin-left: 10px;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: -40px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Assurez-vous que le voile est au-dessus des autres éléments */
+}
+
 .modal-content {
-  position: absolute;
-  top: 30px;
-  right: 0;
-  width: 30vw;
+  position: relative;
+  width: 40vw;
+  max-width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
 }
 
 .header {

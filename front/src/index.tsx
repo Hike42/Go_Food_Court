@@ -264,7 +264,7 @@ const Index = () => {
 
       {/* Fenêtre modale pour afficher le menu */}
       {selectedRestaurant && (
-        <div className="modal">
+        <div className="modal-overlay">
           <div className="modal-content">
             <div className="header">
               <h2>Menu de {selectedRestaurant.name}</h2>
