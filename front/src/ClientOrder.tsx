@@ -25,13 +25,15 @@ const ClientOrders: React.FC = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch("http://localhost:8080/graphql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: `
+      const response = await fetch(
+        "https://go-food-court-29eb18b0ec35.herokuapp.com/graphql",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `
             query GetALlOrdersByEmail($clientEmail: String!) {
               getALlOrdersByEmail(client_email: $clientEmail) {
                 id
@@ -42,21 +44,24 @@ const ClientOrders: React.FC = () => {
               }
             }
           `,
-          variables: { clientEmail: email },
-        }),
-      });
+            variables: { clientEmail: email },
+          }),
+        }
+      );
 
       const responseData = await response.json();
       const fetchedOrders: Order[] = responseData.data.getALlOrdersByEmail;
 
       for (let order of fetchedOrders) {
-        const menuResponse = await fetch("http://localhost:8080/graphql", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: `
+        const menuResponse = await fetch(
+          "https://go-food-court-29eb18b0ec35.herokuapp.com/graphql",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: `
               query GetMenuByID($id: Int!) {
                 getMenuByID(id: $id) {
                   id
@@ -67,9 +72,10 @@ const ClientOrders: React.FC = () => {
                 }
               }
             `,
-            variables: { id: order.dish_id },
-          }),
-        });
+              variables: { id: order.dish_id },
+            }),
+          }
+        );
 
         const menuData = await menuResponse.json();
         order.menu = menuData.data.getMenuByID;

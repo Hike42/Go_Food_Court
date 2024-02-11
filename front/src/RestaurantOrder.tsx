@@ -58,11 +58,13 @@ export default function RestaurantOrder() {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch("http://localhost:8080/graphql", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: `
+      const response = await fetch(
+        "https://go-food-court-29eb18b0ec35.herokuapp.com/graphql",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `
           query GetOrdersbyRestaurant($restaurant_id: Int!) {
             getOrdersbyRestaurant(restaurant_id: $restaurant_id) {
               id
@@ -74,27 +76,31 @@ export default function RestaurantOrder() {
             }
           }
         `,
-          variables: { restaurant_id: parseInt(restaurantID || "0") },
-        }),
-      });
+            variables: { restaurant_id: parseInt(restaurantID || "0") },
+          }),
+        }
+      );
       const { data } = await response.json();
       if (data && data.getOrdersbyRestaurant) {
         const ordersWithNames = await Promise.all(
           data.getOrdersbyRestaurant.map(async (order: any) => {
-            const menuResponse = await fetch("http://localhost:8080/graphql", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                query: `
+            const menuResponse = await fetch(
+              "https://go-food-court-29eb18b0ec35.herokuapp.com/graphql",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  query: `
               query GetMenuByID($id: Int!) {
                 getMenuByID(id: $id) {
                   name
                 }
               }
             `,
-                variables: { id: order.dish_id },
-              }),
-            });
+                  variables: { id: order.dish_id },
+                }),
+              }
+            );
             const menuData = await menuResponse.json();
             return { ...order, menuName: menuData.data.getMenuByID.name };
           })
@@ -112,11 +118,13 @@ export default function RestaurantOrder() {
     orderId: number,
     newStatus: string
   ) => {
-    const response = await fetch("http://localhost:8080/graphql", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: `
+    const response = await fetch(
+      "https://go-food-court-29eb18b0ec35.herokuapp.com/graphql",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `
         mutation UpdateOrderStatus($id: Int!, $status: String!) {
           updateOrderStatus(id: $id, status: $status) {
             id
@@ -124,9 +132,10 @@ export default function RestaurantOrder() {
           }
         }
       `,
-        variables: { id: orderId, status: newStatus },
-      }),
-    });
+          variables: { id: orderId, status: newStatus },
+        }),
+      }
+    );
 
     const { data, errors } = await response.json();
 
@@ -145,20 +154,23 @@ export default function RestaurantOrder() {
   };
 
   const handleDeleteOrder = async (orderId: number) => {
-    const response = await fetch("http://localhost:8080/graphql", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: `
+    const response = await fetch(
+      "https://go-food-court-29eb18b0ec35.herokuapp.com/graphql",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `
         mutation DeleteOrder($id: Int!) {
           deleteOrder(id: $id) {
             id
           }
         }
       `,
-        variables: { id: orderId },
-      }),
-    });
+          variables: { id: orderId },
+        }),
+      }
+    );
 
     const { data, errors } = await response.json();
 

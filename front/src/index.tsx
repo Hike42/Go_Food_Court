@@ -79,7 +79,7 @@ const Index = () => {
   useEffect(() => {
     // Fonction pour charger la liste des restaurants depuis l'API GraphQL
     const fetchRestaurants = () => {
-      fetch("http://localhost:8080/graphql", {
+      fetch("https://go-food-court-29eb18b0ec35.herokuapp.com/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ const Index = () => {
   // Fonction pour charger la liste des menus par restaurant
   useEffect(() => {
     if (selectedRestaurant) {
-      fetch("http://localhost:8080/graphql", {
+      fetch("https://go-food-court-29eb18b0ec35.herokuapp.com/graphql", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -179,7 +179,7 @@ const Index = () => {
         date_time: dateTime,
       };
 
-      fetch("http://localhost:8080/graphql", {
+      fetch("https://go-food-court-29eb18b0ec35.herokuapp.com/graphql", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
