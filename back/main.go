@@ -129,9 +129,15 @@ func main() {
 	db = initDB()
 	r := gin.Default()
 
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
-	config.AddAllowMethods("OPTIONS")
+	config := cors.Config{
+		AllowOrigins:     []string{"https://master--beautiful-macaron-71fd44.netlify.app"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowAllOrigins:  false,
+	}
+
 	r.Use(cors.New(config))
 
 	schema, err := graphql.NewSchema(graphql.SchemaConfig{
