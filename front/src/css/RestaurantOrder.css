@@ -1,0 +1,72 @@
+/* Styles pour le tableau des commandes du restaurant */
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Assure la responsivité du tableau sur les petits écrans */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Élimine l'espace entre les bordures des cellules */
+  table-layout: fixed; /* Force le tableau à respecter la largeur définie */
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px; /* Ajustez selon vos besoins */
+  border-bottom: 1px solid #ddd; /* Ligne séparatrice entre les lignes */
+}
+
+th {
+  background-color: #f2f2f2; /* Couleur de fond pour les en-têtes de colonnes */
+  color: #333; /* Couleur du texte pour les en-têtes */
+}
+
+/* Style pour améliorer la lisibilité en zébrant les lignes du tableau */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Style pour les cellules d'en-tête pour garantir une largeur égale */
+th {
+  width: calc(100% / 6); /* Divise 100% par le nombre de colonnes */
+}
+
+.orders-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.dialog-actions button {
+  margin-right: 10px;
+}
