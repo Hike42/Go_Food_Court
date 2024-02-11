@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -54,7 +55,7 @@ type OrderStatus struct {
 }
 
 func initDB() *sql.DB {
-	db, err := sql.Open("mysql", "7x51ws5f6twn882m4ofl:pscale_pw_hzU7p7Pn4v6mF8DhvCwG8ZWarurr7vb7znUko4pklig@tcp(aws.connect.psdb.cloud)/gfc-db?tls=true&interpolateParams=true")
+	db, err := sql.Open("mysql", "oyau4e4z302gxs380a79:pscale_pw_YHEiOoZVkOptzFnxHKYYsL1MDfex0JUbk3r9HcjBqx9@tcp(aws.connect.psdb.cloud)/gfc-db?tls=true&interpolateParams=true")
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
 	}
@@ -130,7 +131,7 @@ func main() {
 	r := gin.Default()
 
 	config := cors.Config{
-		AllowOrigins:     []string{"https://master--beautiful-macaron-71fd44.netlify.app"},
+		AllowOrigins:     []string{"https://master--gofoodcourt.netlify.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -191,5 +192,9 @@ func main() {
 		}
 	})
 
-	r.Run(":8080")
+    port := os.Getenv("PORT") // Récupère le port de la variable d'environnement
+    if port == "" {
+        port = "8080" // Valeur par défaut si $PORT n'est pas défini (pour le développement local)
+    }
+    r.Run(":" + port) // Utilise le port fourni par Heroku ou 8080 localement
 }
