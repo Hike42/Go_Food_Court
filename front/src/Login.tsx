@@ -38,7 +38,7 @@ const Login: React.FC = () => {
 
       // Rediriger l'utilisateur en fonction de son rôle
       if (data.role === "client" || data.role === "admin") {
-        navigate("/index"); // Remplacez par le chemin vers le tableau de bord client
+        navigate("/home"); // Remplacez par le chemin vers le tableau de bord client
       } else if (data.role === "restaurant") {
         navigate("/restaurant-orders"); // Remplacez par le chemin vers le tableau de bord restaurant
       } else {
