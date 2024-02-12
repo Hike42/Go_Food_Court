@@ -138,22 +138,26 @@ func sendMail(to, subject, body string) error {
 
 
 func main() {
-		    if err := godotenv.Load(); err != nil {
+    if err := godotenv.Load(); err != nil {
         log.Println("No .env file found")
     }
-	db = initDB()
-	r := gin.Default()
+    db = initDB()
+    r := gin.Default()
 
-	config := cors.Config{
-		AllowOrigins:     []string{"https://master--gofoodcourt.netlify.app"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		AllowAllOrigins:  false,
-	}
+    config := cors.Config{
+        AllowOrigins: []string{
+            "https://master--gofoodcourt.netlify.app",
+            "http://localhost:3000", // Ajoutez cette ligne pour autoriser les requêtes depuis le front-end local
+            "http://127.0.0.1:3000",  // Optionnel: pour couvrir la base si localhost est résolu en 127.0.0.1
+        },
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+        AllowAllOrigins:  false,
+    }
 
-	r.Use(cors.New(config))
+    r.Use(cors.New(config))
 
 	schema, err := graphql.NewSchema(graphql.SchemaConfig{
 		Query:    RootQuery,

@@ -228,7 +228,7 @@ const Index = () => {
           <CartIndicator count={cart.length} />
         </button>
 
-        <a href="/my-orders">
+        <a href="/myorders">
           <button>Mes commandes</button>
         </a>
       </div>
