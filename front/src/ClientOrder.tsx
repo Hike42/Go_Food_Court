@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./css/RestaurantOrder.css"; // Utilisez le même fichier CSS pour la cohérence
+import "./css/RestaurantOrder.css";
 import { format } from "date-fns";
 
 type Menu = {
@@ -52,7 +52,7 @@ const ClientOrders: React.FC = () => {
       const responseData = await response.json();
       const fetchedOrders: Order[] = responseData.data.getALlOrdersByEmail;
 
-      for (let order of fetchedOrders) {
+      for (const order of fetchedOrders) {
         const menuResponse = await fetch(
           "https://go-food-court-29eb18b0ec35.herokuapp.com/graphql",
           {
