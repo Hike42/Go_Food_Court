@@ -287,7 +287,8 @@ const Index = () => {
       )}
 
       {isCartOpen && (
-        <div className="modal-content">
+        <div className="modal-overlay">
+          <div className="modal-content">
           <h2>Votre commande</h2>
           {cart.length === 0 ? (
             <p>Votre panier est vide.</p>
@@ -308,6 +309,7 @@ const Index = () => {
             <br />
             <button onClick={closeCart}>Fermer le panier</button>
           </div>
+        </div>
         </div>
       )}
     </div>
