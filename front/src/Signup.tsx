@@ -44,7 +44,7 @@ const Signup: React.FC = () => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="form-box">
-        <h2>Créer un compte</h2>
+        <h2 className="titleform">Créer un compte</h2>
         <input
           type="text"
           value={name}
