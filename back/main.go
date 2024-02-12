@@ -21,7 +21,7 @@ type User struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Email    string `json:"email"`
-	Password string `json:"password"` // Assurez-vous de gérer les mots de passe de manière sécurisée
+	Password string `json:"password"`
 	Role     string `json:"role"`
 }
 
@@ -29,7 +29,7 @@ type Restaurant struct {
 	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	Address string `json:"address"`
-	UserID  int    `json:"user_id"` // Correspond à user_id, sans contrainte de clé étrangère
+	UserID  int    `json:"user_id"`
 }
 
 type Menu struct {
@@ -37,13 +37,13 @@ type Menu struct {
 	Name         string  `json:"name"`
 	Price        float64 `json:"price"`
 	Description  string  `json:"description"`
-	RestaurantID int     `json:"restaurant_id"` // Correspond à restaurant_id
+	RestaurantID int     `json:"restaurant_id"`
 }
 
 type Order struct {
 	ID          int    `json:"id"`
-	ClientEmail string `json:"client_email"` // Correspond à client_email
-	DishID      int    `json:"dish_id"`      // Correspond à dish_id
+	ClientEmail string `json:"client_email"`
+	DishID      int    `json:"dish_id"`
 	Quantity    int    `json:"quantity"`
 	Status      string `json:"status"`
 	DateTime    string `json:"date_time"`
@@ -56,21 +56,18 @@ type OrderStatus struct {
 }
 
 func initDB() *sql.DB {
-    // Remplacez "myUsername", "myPassword", "myHost", "myDB" par vos propres clés de variables d'environnement
     username := os.Getenv("DB_USER")
     password := os.Getenv("DB_PASSWORD")
     host := os.Getenv("DB_HOST")
     dbName := os.Getenv("DB_NAME")
 
-    // Construisez votre chaîne de connexion en utilisant les variables d'environnement
     dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true&interpolateParams=true", username, password, host, dbName)
 
     db, err := sql.Open("mysql", dataSourceName)
     if err != nil {
         log.Fatalf("Error opening database: %v", err)
     }
-
-    // Vérifiez la connexion
+	
     err = db.Ping()
     if err != nil {
         log.Fatalf("Error connecting to the database: %v", err)
@@ -147,8 +144,8 @@ func main() {
     config := cors.Config{
         AllowOrigins: []string{
             "https://master--gofoodcourt.netlify.app",
-            "http://localhost:3000", // Ajoutez cette ligne pour autoriser les requêtes depuis le front-end local
-            "http://127.0.0.1:3000",  // Optionnel: pour couvrir la base si localhost est résolu en 127.0.0.1
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
         },
         AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
         AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
@@ -203,16 +200,15 @@ func main() {
 		}
 
 		if isValid {
-			// Utilisez l'ID de l'utilisateur (userID) ici pour récupérer des informations supplémentaires si nécessaire
 			c.JSON(http.StatusOK, gin.H{"message": "Login successful", "role": role, "userID": userID})
 		} else {
 			c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid credentials"})
 		}
 	})
 
-    port := os.Getenv("PORT") // Récupère le port de la variable d'environnement
+    port := os.Getenv("PORT")
     if port == "" {
-        port = "8080" // Valeur par défaut si $PORT n'est pas défini (pour le développement local)
+        port = "8080"
     }
-    r.Run(":" + port) // Utilise le port fourni par Heroku ou 8080 localement
+    r.Run(":" + port)
 }

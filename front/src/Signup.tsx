@@ -40,18 +40,15 @@ const Signup: React.FC = () => {
       const data = await response.json();
       console.log(data);
 
-      // Affichez une notification de succès
       setNotification({
         show: true,
         message: "Compte créé avec succès. Redirection...",
         type: "success",
       });
 
-      // Redirigez l'utilisateur après un court délai pour voir la notification
       setTimeout(() => navigate("/login"), 3000); // 3 secondes
     } catch (error) {
       console.error("Erreur lors de la création du compte:", error);
-      // Affichez une notification d'erreur
       setNotification({
         show: true,
         message: "Erreur lors de la création du compte.",

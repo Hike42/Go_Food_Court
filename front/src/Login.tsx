@@ -28,26 +28,21 @@ const Login: React.FC = () => {
 
       const data = await response.json();
 
-      // Supposons que `data` contienne une propriété `role` avec le rôle de l'utilisateur
       console.log("Login response:", data);
 
-      // Stocker l'email et le rôle de l'utilisateur dans le localStorage ou contexte global
       localStorage.setItem("userEmail", email);
-      localStorage.setItem("userRole", data.role); // Stockez le rôle pour une utilisation future
-      localStorage.setItem("userID", data.userID); // Stockez l'ID pour une utilisation future
+      localStorage.setItem("userRole", data.role);
+      localStorage.setItem("userID", data.userID);
 
-      // Rediriger l'utilisateur en fonction de son rôle
       if (data.role === "client" || data.role === "admin") {
-        navigate("/home"); // Remplacez par le chemin vers le tableau de bord client
+        navigate("/home");
       } else if (data.role === "restaurant") {
-        navigate("/restaurant-orders"); // Remplacez par le chemin vers le tableau de bord restaurant
+        navigate("/restaurant-orders");
       } else {
         console.error("Role not recognized:", data.role);
-        // Gérer le cas d'un rôle non reconnu
       }
     } catch (error) {
       console.error("Erreur lors de la connexion:", error);
-      // Gérer l'erreur ici (par exemple, afficher un message d'erreur)
     }
   };
 

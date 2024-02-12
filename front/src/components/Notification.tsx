@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-// Définir les types des props
 interface NotificationProps {
   message: string;
   type?: "info" | "success" | "error";
@@ -12,7 +11,6 @@ const Notification: React.FC<NotificationProps> = ({
   type = "info",
   onClose,
 }) => {
-  // Définir une durée avant de fermer la notification automatiquement
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -21,7 +19,6 @@ const Notification: React.FC<NotificationProps> = ({
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  // Styles de base pour la notification
   const baseStyle = {
     position: "fixed",
     top: "20px",

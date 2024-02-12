@@ -53,7 +53,7 @@ const ActionDialog = ({
 export default function RestaurantOrder() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
-  const restaurantID = localStorage.getItem("userID"); // Supposons que l'ID du restaurant est stocké dans le localStorage
+  const restaurantID = localStorage.getItem("userID");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -142,7 +142,6 @@ export default function RestaurantOrder() {
     if (errors) {
       console.error("Failed to update order status:", errors);
     } else if (data) {
-      // Mise à jour réussie, mettez à jour l'état local si nécessaire
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.id === orderId ? { ...order, status: newStatus } : order
@@ -150,7 +149,7 @@ export default function RestaurantOrder() {
       );
     }
 
-    setCurrentOrder(null); // Fermer le dialogue après l'action
+    setCurrentOrder(null);
   };
 
   const handleDeleteOrder = async (orderId: number) => {
@@ -177,13 +176,12 @@ export default function RestaurantOrder() {
     if (errors) {
       console.error("Failed to delete order:", errors);
     } else if (data) {
-      // Suppression réussie, mettez à jour l'état local
       setOrders((prevOrders) =>
         prevOrders.filter((order) => order.id !== orderId)
       );
     }
 
-    setCurrentOrder(null); // Fermer le dialogue après l'action
+    setCurrentOrder(null);
   };
 
   const handleLogout = () => {

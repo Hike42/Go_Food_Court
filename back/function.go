@@ -291,25 +291,20 @@ func deleteOrder(db *sql.DB, id int) error {
 
 func checkUserCredentials(db *sql.DB, email, password string) (bool, string, int, error) {
 	var dbPassword, role string
-	var userID int // Ajouté pour stocker l'ID de l'utilisateur
-	// Modifiez la requête pour récupérer également l'ID de l'utilisateur
+	var userID int
 	err := db.QueryRow("SELECT id, password, role FROM Users WHERE email = ?", email).Scan(&userID, &dbPassword, &role)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			// Aucun utilisateur trouvé avec cet email
 			return false, "", 0, nil
 		}
-		// Une erreur s'est produite lors de la requête
 		return false, "", 0, err
 	}
 
-	// Ici, comparez le mot de passe fourni avec celui en base de données.
-	// Si vous stockez des mots de passe hachés, utilisez une fonction de comparaison appropriée.
 	if password == dbPassword {
-		return true, role, userID, nil // Les identifiants sont corrects, renvoyez également le rôle et l'ID de l'utilisateur
+		return true, role, userID, nil
 	}
 
-	return false, "", 0, nil // Mauvais mot de passe
+	return false, "", 0, nil
 }
 
 func updateOrderStatus(db *sql.DB, id int, status string) error {
@@ -326,7 +321,7 @@ func updateOrderStatus(db *sql.DB, id int, status string) error {
     err = db.QueryRow(query, id).Scan(&clientEmail)
     if err != nil {
         log.Printf("Erreur lors de la récupération de l'email du client : %v", err)
-        return err // ou gérer l'erreur selon votre logique
+        return err
     }
 
     // 3. Envoyer l'email de mise à jour
@@ -336,7 +331,6 @@ func updateOrderStatus(db *sql.DB, id int, status string) error {
     err = sendMail(clientEmail, subject, body)
     if err != nil {
         log.Printf("Erreur lors de l'envoi de l'email : %v", err)
-        // Décidez si vous voulez renvoyer l'erreur ou simplement la logger
     }
 
     return nil
