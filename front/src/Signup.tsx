@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/registerLogin.css";
+import Notification from "./components/Notification";
 
 const Signup: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+    type: "info", // "success", "error", "info"
+  });
 
   const navigateToLogin = () => {
     navigate("/login");
@@ -34,15 +40,36 @@ const Signup: React.FC = () => {
       const data = await response.json();
       console.log(data);
 
-      // Affichez un message de succès ou redirigez l'utilisateur ici
+      // Affichez une notification de succès
+      setNotification({
+        show: true,
+        message: "Compte créé avec succès. Redirection...",
+        type: "success",
+      });
+
+      // Redirigez l'utilisateur après un court délai pour voir la notification
+      setTimeout(() => navigate("/login"), 3000); // 3 secondes
     } catch (error) {
       console.error("Erreur lors de la création du compte:", error);
-      // Affichez un message d'erreur ici
+      // Affichez une notification d'erreur
+      setNotification({
+        show: true,
+        message: "Erreur lors de la création du compte.",
+        type: "error",
+      });
     }
   };
 
   return (
     <div className="form-container">
+      {notification.show && (
+        <Notification
+          message={notification.message}
+          type={notification.type as "info" | "success" | "error" | undefined}
+          onClose={() => setNotification({ ...notification, show: false })}
+        />
+      )}
+
       <form onSubmit={handleSubmit} className="form-box">
         <h2 className="titleform">Créer un compte</h2>
         <input
