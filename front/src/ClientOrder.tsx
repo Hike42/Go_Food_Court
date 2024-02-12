@@ -92,7 +92,7 @@ const ClientOrders: React.FC = () => {
   return (
     <div>
       <h2>My Orders</h2>
-      <a href="/index">
+      <a href="/home">
         <button className="back-button">Retour à la carte</button>
       </a>
       {orders.length > 0 ? (

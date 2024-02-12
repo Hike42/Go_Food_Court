@@ -54,7 +54,7 @@ const Login: React.FC = () => {
   return (
     <div className="form-container content-container">
       <form onSubmit={handleSubmit} className="form-box">
-        <h2>Connexion</h2>
+        <h2 className="titleform">Connexion</h2>
         <input
           type="email"
           value={email}
