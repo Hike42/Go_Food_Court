@@ -55,20 +55,30 @@ type OrderStatus struct {
 }
 
 func initDB() *sql.DB {
-	db, err := sql.Open("mysql", "oyau4e4z302gxs380a79:pscale_pw_YHEiOoZVkOptzFnxHKYYsL1MDfex0JUbk3r9HcjBqx9@tcp(aws.connect.psdb.cloud)/gfc-db?tls=true&interpolateParams=true")
-	if err != nil {
-		log.Fatalf("Error opening database: %v", err)
-	}
+    // Remplacez "myUsername", "myPassword", "myHost", "myDB" par vos propres clés de variables d'environnement
+    username := os.Getenv("DB_USER")
+    password := os.Getenv("DB_PASSWORD")
+    host := os.Getenv("DB_HOST")
+    dbName := os.Getenv("DB_NAME")
 
-	// Check the connection
-	err = db.Ping()
-	if err != nil {
-		log.Fatalf("Error connecting to the database: %v", err)
-	}
+    // Construisez votre chaîne de connexion en utilisant les variables d'environnement
+    dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true&interpolateParams=true", username, password, host, dbName)
 
-	fmt.Println("Connected to the database successfully.")
-	return db
+    db, err := sql.Open("mysql", dataSourceName)
+    if err != nil {
+        log.Fatalf("Error opening database: %v", err)
+    }
+
+    // Vérifiez la connexion
+    err = db.Ping()
+    if err != nil {
+        log.Fatalf("Error connecting to the database: %v", err)
+    }
+
+    fmt.Println("Connected to the database successfully.")
+    return db
 }
+
 
 func graphqlHandler(schema graphql.Schema) gin.HandlerFunc {
 	return func(c *gin.Context) {
