@@ -56,7 +56,7 @@ const Index = () => {
 
   const openCart = () => {
     setIsCartOpen(true);
-    setSelectedRestaurant(null); // Ajoutez cette ligne pour fermer la fenêtre modale du menu
+    setSelectedRestaurant(null);
   };
 
   const removeFromCart = (menu: Menu) => {
@@ -70,14 +70,13 @@ const Index = () => {
 
   const CartIndicator: React.FC<CartIndicatorProps> = ({ count }) => {
     if (count === 0) {
-      return null; // Ne pas afficher si le panier est vide
+      return null;
     }
 
     return <div className="cart-indicator">{count}</div>;
   };
 
   useEffect(() => {
-    // Fonction pour charger la liste des restaurants depuis l'API GraphQL
     const fetchRestaurants = () => {
       fetch("https://go-food-court-29eb18b0ec35.herokuapp.com/graphql", {
         method: "POST",
@@ -102,7 +101,6 @@ const Index = () => {
           if (data && data.data && data.data.getAllRestaurants) {
             setRestaurants(data.data.getAllRestaurants);
           } else {
-            // Gérer le cas où les données ne sont pas dans le format attendu
             console.error("Format de données inattendu:", data);
           }
         })
@@ -114,11 +112,9 @@ const Index = () => {
     const client_email = localStorage.getItem("userEmail");
     console.log("Client email:", client_email);
 
-    // Appeler la fonction pour charger les restaurants au chargement de la page
     fetchRestaurants();
   }, []);
 
-  // Fonction pour charger la liste des menus par restaurant
   useEffect(() => {
     if (selectedRestaurant) {
       fetch("https://go-food-court-29eb18b0ec35.herokuapp.com/graphql", {
@@ -148,7 +144,6 @@ const Index = () => {
           if (data && data.data && data.data.getMenusByRestaurant) {
             setMenus(data.data.getMenusByRestaurant);
           } else {
-            // Gérer le cas où les données ne sont pas dans le format attendu
             console.error("Format de données inattendu:", data);
           }
         })
@@ -158,19 +153,16 @@ const Index = () => {
     }
   }, [selectedRestaurant]);
 
-  // Fonction pour ouvrir la fenêtre modale
   const openModal = (restaurant: Restaurant) => {
     setSelectedRestaurant(restaurant);
-    setIsCartOpen(false); // Ajoutez cette ligne pour fermer le panier
+    setIsCartOpen(false);
   };
 
-  // Fonction pour fermer la fenêtre modale
   const closeModal = () => {
     setSelectedRestaurant(null);
   };
   const placeOrder = () => {
     cart.forEach((menu) => {
-      // Préparer les variables pour la mutation
       const variables = {
         client_email: localStorage.getItem("userEmail"),
         dish_id: menu.id,
@@ -200,18 +192,16 @@ const Index = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Order created:", data);
-          // Afficher la notification de succès
-          setNotification({
+          -setNotification({
             show: true,
             message: `Votre commande pour "${menu.name}" a été passée avec succès.`,
             type: "success",
           });
-          setCart([]); // Vider le panier
-          setIsCartOpen(false); // Fermer le panier
+          setCart([]);
+          setIsCartOpen(false);
         })
         .catch((error) => {
           console.error("Error creating order:", error);
-          // Ici, vous pouvez également déclencher une notification d'erreur
         });
     });
   };
@@ -262,7 +252,6 @@ const Index = () => {
         />
       )}
 
-      {/* Fenêtre modale pour afficher le menu */}
       {selectedRestaurant && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -289,27 +278,29 @@ const Index = () => {
       {isCartOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-          <h2>Votre commande</h2>
-          {cart.length === 0 ? (
-            <p>Votre panier est vide.</p>
-          ) : (
-            <ul>
-              {cart.map((item) => (
-                <li key={item.id}>
-                  <h3>{item.name}</h3>
-                  <p>Prix: {item.price} €</p>
-                  <p>Description: {item.description}</p>
-                  <button onClick={() => removeFromCart(item)}>Retirer</button>
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="validate_button">
-            <button onClick={placeOrder}>Commander</button>
-            <br />
-            <button onClick={closeCart}>Fermer le panier</button>
+            <h2>Votre commande</h2>
+            {cart.length === 0 ? (
+              <p>Votre panier est vide.</p>
+            ) : (
+              <ul>
+                {cart.map((item) => (
+                  <li key={item.id}>
+                    <h3>{item.name}</h3>
+                    <p>Prix: {item.price} €</p>
+                    <p>Description: {item.description}</p>
+                    <button onClick={() => removeFromCart(item)}>
+                      Retirer
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="validate_button">
+              <button onClick={placeOrder}>Commander</button>
+              <br />
+              <button onClick={closeCart}>Fermer le panier</button>
+            </div>
           </div>
-        </div>
         </div>
       )}
     </div>
