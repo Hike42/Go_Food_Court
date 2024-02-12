@@ -46,15 +46,6 @@ var orderType = graphql.NewObject(graphql.ObjectConfig{
 	},
 })
 
-var orderStatusType = graphql.NewObject(graphql.ObjectConfig{
-	Name: "OrderStatus",
-	Fields: graphql.Fields{
-		"order_id":  &graphql.Field{Type: graphql.Int},
-		"status":    &graphql.Field{Type: graphql.String},
-		"date_time": &graphql.Field{Type: graphql.String},
-	},
-})
-
 var RootQuery = graphql.NewObject(graphql.ObjectConfig{
 	Name: "RootQuery",
 	Fields: graphql.Fields{
@@ -167,19 +158,6 @@ var RootQuery = graphql.NewObject(graphql.ObjectConfig{
 				db := initDB()
 				defer db.Close()
 				return findOrdersByRestaurantID(db, restaurantID)
-			},
-		},
-
-		"getOrderStatusByID": &graphql.Field{
-			Type: orderStatusType,
-			Args: graphql.FieldConfigArgument{
-				"id": &graphql.ArgumentConfig{Type: graphql.Int},
-			},
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				id, _ := p.Args["id"].(int)
-				db := initDB()
-				defer db.Close()
-				return findOrderStatusByID(db, id)
 			},
 		},
 	},
@@ -401,13 +379,13 @@ var RootMutation = graphql.NewObject(graphql.ObjectConfig{
 				"status": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				orderStatus := OrderStatus{
-					OrderID: p.Args["id"].(int),
+				orderStatus := Order{
+					ID: p.Args["id"].(int),
 					Status:  p.Args["status"].(string),
 				}
 				db := initDB()
 				defer db.Close()
-				err := updateOrderStatus(db, orderStatus.OrderID, orderStatus.Status)
+				err := updateOrderStatus(db, orderStatus.ID, orderStatus.Status)
 				if err != nil {
 					return nil, err
 				}

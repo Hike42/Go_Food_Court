@@ -170,15 +170,6 @@ func findAllOrdersbyUserEmail(db *sql.DB, email string) ([]Order, error) {
 	return orders, nil
 }
 
-func findOrderStatusByID(db *sql.DB, id int) (*OrderStatus, error) {
-	var orderStatus OrderStatus
-	query := `SELECT order_id, status, date_time FROM OrderStatus WHERE order_id = ?`
-	if err := db.QueryRow(query, id).Scan(&orderStatus.OrderID, &orderStatus.Status, &orderStatus.DateTime); err != nil {
-		return nil, err
-	}
-	return &orderStatus, nil
-}
-
 // Mutations
 
 func createUser(db *sql.DB, user User) (*User, error) {
