@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/graphql-go/graphql"
+	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
@@ -137,6 +138,9 @@ func sendMail(to, subject, body string) error {
 
 
 func main() {
+		    if err := godotenv.Load(); err != nil {
+        log.Println("No .env file found")
+    }
 	db = initDB()
 	r := gin.Default()
 
