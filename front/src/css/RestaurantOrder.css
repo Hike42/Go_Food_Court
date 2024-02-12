@@ -1,6 +1,6 @@
 .table-container {
   width: 100%;
-  overflow-x: auto; 
+  overflow-x: auto;
 }
 
 table {
@@ -66,4 +66,8 @@ td {
 
 .dialog-actions button {
   margin-right: 10px;
+}
+
+button {
+  margin-bottom: 10px;
 }

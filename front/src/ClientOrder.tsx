@@ -115,7 +115,7 @@ const ClientOrders: React.FC = () => {
                   <td>{order.menu?.name || "Inconnu"}</td>
                   <td>{order.quantity}</td>
                   <td>{order.status}</td>
-                  <td>{format(new Date(order.date_time), "Pp")}</td>
+                  <td>{format(new Date(order.date_time), "p")}</td>
                   <td>{`${order.menu?.price || 0} €`}</td>
                 </tr>
               ))}

@@ -54,6 +54,18 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.modal-content {
+  /* Vos styles existants */
+  color: white; /* Assure que le texte dans la modale est blanc */
+}
+
+.modal-content h2,
+.modal-content h3,
+.modal-content p {
+  color: white; /* Couleur du texte pour tous les éléments de texte dans la modale */
+}
+
+/* Styles pour les modales dans le thème clair */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -64,5 +76,10 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    color: #213547; /* Assure une bonne visibilité du texte sur le bouton dans le thème clair */
+  }
+  /* Assurez-vous que le texte dans les modales reste lisible dans le thème clair */
+  .modal-content {
+    color: #213547; /* Changez cela si vous souhaitez une couleur différente dans le thème clair */
   }
 }

@@ -56,6 +56,10 @@ export default function RestaurantOrder() {
   const restaurantID = localStorage.getItem("userID");
   const navigate = useNavigate();
 
+  function truncateText(text: string, limit: number) {
+    return text.length > limit ? text.substring(0, limit) + "..." : text;
+  }
+
   useEffect(() => {
     const fetchOrders = async () => {
       const response = await fetch(
@@ -214,11 +218,17 @@ export default function RestaurantOrder() {
           {orders.map((order) => (
             <tr key={order.id}>
               <td>{order.id}</td>
-              <td>{order.client_email}</td>
-              <td>{order.menuName || "Inconnu"}</td>
+              <td title={order.client_email}>
+                {truncateText(order.client_email, 15)}
+              </td>
+              <td title={order.menuName || "Inconnu"}>
+                {truncateText(order.menuName || "Inconnu", 15)}
+              </td>
               <td>{order.quantity}</td>
               <td>{order.status}</td>
-              <td>{format(new Date(order.date_time), "Pp")}</td>
+              <td title={format(new Date(order.date_time), "p")}>
+                {truncateText(format(new Date(order.date_time), "p"), 15)}
+              </td>
               <td>
                 <button onClick={() => setCurrentOrder(order)}>Actions</button>
               </td>
