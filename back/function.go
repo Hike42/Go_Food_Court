@@ -313,23 +313,31 @@ func checkUserCredentials(db *sql.DB, email, password string) (bool, string, int
 }
 
 func updateOrderStatus(db *sql.DB, id int, status string) error {
-	query := `UPDATE Orders SET status = ? WHERE id = ?`
-	_, err := db.Exec(query, status, id)
-	if err != nil {
-		return err
-	}
+    // 1. Mettre à jour le statut de la commande
+    query := `UPDATE Orders SET status = ? WHERE id = ?`
+    _, err := db.Exec(query, status, id)
+    if err != nil {
+        return err
+    }
 
-	// Exemple d'utilisation de la fonction sendMail
-	// À adapter selon votre logique pour récupérer l'email du client associé à la commande
-	clientEmail := "hikingoff@gmail.com" // Récupérer l'email réel du client ici
-	subject := "Mise à jour de votre commande Go Food Court"
-	body := "Votre commande a été mise à jour avec le statut : " + status
+    // 2. Récupérer l'email du client associé à la commande
+    var clientEmail string
+    query = `SELECT client_email FROM Orders WHERE id = ?`
+    err = db.QueryRow(query, id).Scan(&clientEmail)
+    if err != nil {
+        log.Printf("Erreur lors de la récupération de l'email du client : %v", err)
+        return err // ou gérer l'erreur selon votre logique
+    }
 
-	err = sendMail(clientEmail, subject, body)
-	if err != nil {
-		log.Printf("Erreur lors de l'envoi de l'email : %v", err)
-		// Décidez si vous voulez renvoyer l'erreur ou simplement la logger
-	}
+    // 3. Envoyer l'email de mise à jour
+    subject := "Mise à jour de votre commande Go Food Court"
+    body := "Votre commande a été mise à jour avec le statut : " + status
 
-	return nil
+    err = sendMail(clientEmail, subject, body)
+    if err != nil {
+        log.Printf("Erreur lors de l'envoi de l'email : %v", err)
+        // Décidez si vous voulez renvoyer l'erreur ou simplement la logger
+    }
+
+    return nil
 }
