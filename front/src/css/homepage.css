@@ -23,7 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Assurez-vous que le voile est au-dessus des autres éléments */
+  z-index: 1000;
   backdrop-filter: blur(2px);
 }
 

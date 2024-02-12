@@ -1,35 +1,32 @@
-/* Styles pour le tableau des commandes du restaurant */
 .table-container {
   width: 100%;
-  overflow-x: auto; /* Assure la responsivité du tableau sur les petits écrans */
+  overflow-x: auto; 
 }
 
 table {
   width: 100%;
-  border-collapse: collapse; /* Élimine l'espace entre les bordures des cellules */
-  table-layout: fixed; /* Force le tableau à respecter la largeur définie */
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 th,
 td {
   text-align: left;
-  padding: 8px; /* Ajustez selon vos besoins */
-  border-bottom: 1px solid #ddd; /* Ligne séparatrice entre les lignes */
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
 
 th {
-  background-color: #f2f2f2; /* Couleur de fond pour les en-têtes de colonnes */
-  color: #333; /* Couleur du texte pour les en-têtes */
+  background-color: #f2f2f2;
+  color: #333;
 }
 
-/* Style pour améliorer la lisibilité en zébrant les lignes du tableau */
 tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-/* Style pour les cellules d'en-tête pour garantir une largeur égale */
 th {
-  width: calc(100% / 6); /* Divise 100% par le nombre de colonnes */
+  width: calc(100% / 6);
 }
 
 .orders-container {
